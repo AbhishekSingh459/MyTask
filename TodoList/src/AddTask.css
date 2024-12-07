@@ -1,0 +1,55 @@
+#AddTask{
+    height: 80px;
+    background-color: white;
+    width: 600px;
+    margin: auto;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    display: flex;
+    justify-content:space-between;
+    margin-bottom: 20px;
+}
+#inputbox{
+    font-size: 25px;
+    margin: 20px;
+    border: none;
+    height: 40px;
+    
+}
+input:focus{
+    border: none;
+    outline: none;
+}
+#Addbtn{
+    font-size: 20px;
+    width: 100px;
+    height: 40px;
+    margin: 20px 20px 0px 0px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background-color: #3b71ca;
+    color: white;
+}
+#Tasklist{
+    /* background-color: aquamarine; */
+    margin: 0px 40px 10px 40px;
+}
+.list{
+    font-size: 25px;
+    list-style:square;
+    color: white;
+    margin-bottom: 10px;
+}
+.removeBtn{
+    font-size: 20px;
+    background-color: transparent;
+    border: none;
+}
+#remove_img{
+    height: 40px;
+    width: 40px;
+}
+.item{
+    display: flex;
+    justify-content: space-between;
+}
