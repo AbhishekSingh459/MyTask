@@ -44,6 +44,8 @@ input:focus{
     font-size: 20px;
     background-color: transparent;
     border: none;
+    position: relative;
+    bottom: 7px;
 }
 #remove_img{
     height: 40px;
@@ -52,4 +54,20 @@ input:focus{
 .item{
     display: flex;
     justify-content: space-between;
+}
+.UpperCaseBtn{
+    border-radius: 10px;
+    background-color: transparent;
+    font-size: 20px;
+    color: white;
+    position:fixed;
+    right: 100px;
+}
+.MarkAsDone{
+    border-radius: 10px;
+    background-color: transparent;
+    font-size: 20px;
+    color: white;
+    position:fixed;
+    right: 230px;
 }
