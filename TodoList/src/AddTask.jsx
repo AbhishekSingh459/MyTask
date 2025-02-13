@@ -1,70 +1,101 @@
-import { useState } from "react"
-import "./AddTask.css"
-import remove from "./remove.png"
-import { v4 as uuidv4 } from 'uuid';
+import { useState, useEffect } from "react";
+import "./AddTask.css";
+import remove from "./remove.png";
+import { v4 as uuidv4 } from "uuid";
+
 const AddTask = () => {
-  let [Todo,setTodo]=useState([{task:"Sample Task",id:uuidv4(), isdone:false}]);
-  let [newTodo,setnewTodo]=useState("");
-  
-  let AddNewTask = () =>{
-    setTodo([...Todo,{task:newTodo,id:uuidv4(), isdone:false}]);
-    setnewTodo("");
+  // Load saved tasks from localStorage
+  const [Todo, setTodo] = useState(() => {
+    const savedTodos = localStorage.getItem("todos");
+    return savedTodos ? JSON.parse(savedTodos) : [];
+  });
+
+  const [newTodo, setNewTodo] = useState("");
+
+  // Save tasks to localStorage
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(Todo));
+  }, [Todo]);
+
+  let AddNewTask = () => {
+    if (newTodo.trim() === "") return;
+    setTodo([...Todo, { task: newTodo, id: uuidv4(), isdone: false }]);
+    setNewTodo("");
+  };
+
+  function UpdateTodoValue(event) {
+    setNewTodo(event.target.value);
   }
-  function UpdateTodoValue(event){
-    setnewTodo(event.target.value);
-  }
-  let DeleteTodo = (id) =>{
-    setTodo(Todo.filter((todo) => todo.id!= id));
-  }
-  let UpdateUpperCase = (id)=>{
-    setTodo((todos)=>
-      todos.map((todo)=>{
-        if(todo.id == id){
-          return{
-            ...todo,
-            task: todo.task.toUpperCase()
-          }
-        }
-        else{
-          return todo;
-        }
-      })
+
+  let DeleteTodo = (id) => {
+    setTodo(Todo.filter((todo) => todo.id !== id));
+  };
+
+  let UpdateUpperCase = (id) => {
+    setTodo((todos) =>
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, task: todo.task.toUpperCase() } : todo
+      )
     );
   };
-  let MarkAsDone = (id)=>{
-    setTodo((todos)=>
-      todos.map((todo)=>{
-        if(todo.id == id){
-          return{
-            ...todo,
-            isdone:true,
-          }
-        }
-      })
+
+  let MarkAsDone = (id) => {
+    setTodo((todos) =>
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, isdone: true } : todo
+      )
     );
   };
+
   return (
     <>
-    <div id='AddTask'>
-        <input type="text" name="" id="inputbox" value={newTodo} onChange={UpdateTodoValue} placeholder='Add Task..'/>
-        <button id='Addbtn'onClick={AddNewTask}>Add</button>
-    </div>
-    <div id="Tasklist">
-      <ul>
-        {Todo.map((todo)=>{
-          return <li className="list" key={todo.id} style={todo.isdone ?{textDecorationLine: "line-through"}:{}}>
-            <div className="item">
-            <span>{todo.task}</span>
-            <button onClick={()=>MarkAsDone(todo.id)} className="MarkAsDone">MarkAsDone</button>
-            <button onClick={()=>UpdateUpperCase(todo.id)} className="UpperCaseBtn">UpperCase</button>
-            <button className="removeBtn" onClick={()=>DeleteTodo(todo.id)}><img src={remove} id="remove_img" alt="" /></button>
-            </div>
+      <div id="AddTask">
+        <input
+          type="text"
+          id="inputbox"
+          value={newTodo}
+          onChange={UpdateTodoValue}
+          placeholder="Add Task.."
+        />
+        <button id="Addbtn" onClick={AddNewTask}>
+          Add
+        </button>
+      </div>
+      <div id="Tasklist">
+        <ul>
+          {Todo.map((todo) => (
+            <li
+              className="list"
+              key={todo.id}
+              style={todo.isdone ? { textDecoration: "line-through" } : {}}
+            >
+              <div className="item">
+                <span>{todo.task}</span>
+                <button
+                  onClick={() => MarkAsDone(todo.id)}
+                  className="MarkAsDone"
+                >
+                  MarkAsDone
+                </button>
+                <button
+                  onClick={() => UpdateUpperCase(todo.id)}
+                  className="UpperCaseBtn"
+                >
+                  UpperCase
+                </button>
+                <button
+                  className="removeBtn"
+                  onClick={() => DeleteTodo(todo.id)}
+                >
+                  <img src={remove} id="remove_img" alt="Remove" />
+                </button>
+              </div>
             </li>
-        })}
-      </ul>
-    </div>
+          ))}
+        </ul>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default AddTask
+export default AddTask;
